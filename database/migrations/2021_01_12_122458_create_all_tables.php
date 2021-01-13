@@ -92,7 +92,7 @@ class CreateAllTables extends Migration
             $table->string('photo');
             $table->string('description');
             $table->string('where');
-            $table->date('date_create');
+            $table->date('date_created');
 
         });
 
