@@ -12,6 +12,7 @@ class User extends Authenticatable implements JWTSubject
     use HasFactory, Notifiable;
 
     public $timestamps = false;
+ 
 
     protected $hidden = [
         'password'
