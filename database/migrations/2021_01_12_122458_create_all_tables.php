@@ -98,11 +98,10 @@ class CreateAllTables extends Migration
 
         Schema::create('areas', function(Blueprint $table){
             $table->id();
-            $table->integer('allwoed')->default(1);
+            $table->integer('allowed')->default(1);
             $table->string('title');
             $table->string('cover');
             $table->string('days');
-            $table->date('date_create');
             $table->time('start_time');
             $table->time('end_time');
 
