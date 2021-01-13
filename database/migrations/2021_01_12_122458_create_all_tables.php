@@ -81,7 +81,7 @@ class CreateAllTables extends Migration
             $table->integer('id_unit');
             $table->string('title');
             $table->string('status')->default('IN_REVIEW'); //IN_REVIEW, RESOLVER
-            $table->date('date_create');
+            $table->date('date_created');
             $table->text('photos');
 
         });
