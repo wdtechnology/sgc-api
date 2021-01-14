@@ -68,14 +68,33 @@ class FoundAndLostController extends Controller
             $newLost->where = $where;
             $newLost->date_created = date('Y-m-d');
             $newLost->save();
-
-            
         } else {
             $array['error'] = $validator->errors()->first();
             return $array;
         }
 
 
+        return $array;
+    }
+
+    public function update($id, Request $request)
+    {
+        $array = ['error' => ''];
+        $status = $request->input('status');
+        if ($status && in_array($status, ['lost', 'recovered'])) {
+
+            $item = FoundAndLost::find($id);
+            if ($item) {
+                $item->status = $status;
+                $item->save();
+            } else {
+                $array['error'] = 'Item inexistente.';
+                return $array;
+            }
+        } else {
+            $array['error'] = 'Status inválido.';
+            return $array;
+        }
         return $array;
     }
 }
