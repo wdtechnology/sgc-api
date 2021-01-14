@@ -115,7 +115,7 @@ class CreateAllTables extends Migration
         });  Schema::create('reservations', function(Blueprint $table){
             $table->id();
             $table->integer('id_unit');
-            $table->integer('id_aarea');
+            $table->integer('id_area');
             $table->dateTime('reservation_date');
 
         });
