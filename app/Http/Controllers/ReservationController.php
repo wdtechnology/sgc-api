@@ -184,7 +184,7 @@ class ReservationController extends Controller
                         $time = date('H:i:s', strtotime($reservation['reservation_date']));
                         $toRemove[] = $time;
                     }
-            
+
 
                     foreach ($timesList as $timeItem) {
                         if (!in_array($timeItem['id'], $toRemove)) {
@@ -273,6 +273,77 @@ class ReservationController extends Controller
             $array['error'] = $validator->errors()->first();
             return $array;
         }
+
+        return $array;
+    }
+
+    public function getMyReservations(Request $request)
+    {
+
+        $array = ['error' => '', 'list' => []];
+        $property = $request->input('property');
+        if ($property) {
+
+            $unit = Unit::find($property);
+            if ($unit) {
+
+                $reservations = Reservation::where('id_unit', $property)->orderBy('reservation_date', 'DESC')->get();
+
+                foreach ($reservations as $reservation) {
+                    $area = Area::find($reservation['id_area']);
+
+                    $dateRev = date('d/m/Y H:i', strtotime($reservation['reservation_date']));
+                    $afterTime = date('H:i', strtotime('+1 hour', strtotime($reservation['reservation_date'])));
+                    $dateRev .= ' à ' . $afterTime;
+
+                    $array['list'][] = [
+                        'id' => $reservation['id'],
+                        'id_area' => $reservation['id_area'],
+                        'title' => $area['title'],
+                        'cover' => asset('storage/' . $area['cover']),
+                        'date_reserved' => $dateRev
+
+                    ];
+                }
+            } else {
+                $array['error'] = 'Propriedade inexistente.';
+                return $array;
+            }
+        } else {
+            $array['error'] = 'É necessário informar a propriedade.';
+            return $array;
+        }
+        return $array;
+    }
+
+    public function delMyReservation($id)
+    {
+
+        $array = ['error' => ''];
+
+        $user = auth()->user();
+        $reservation = Reservation::find($id);
+
+        if($reservation){
+
+            $unit = Unit::where('id', $reservation['id_unit'])->where('id_owner', $user['id'])->count();
+
+            if($unit > 0){
+                Reservation::find($id)->delete();
+            } else {
+                $array['error'] = 'Não é permitido excluir uma reserva de outro morador.';
+                return $array;
+            }
+
+        } else {
+            $array['error'] = 'Reserva inexistente.';
+
+            return $array;
+        }
+
+
+
+
 
         return $array;
     }

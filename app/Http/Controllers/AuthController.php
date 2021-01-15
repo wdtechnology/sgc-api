@@ -143,4 +143,5 @@ class AuthController extends Controller
         auth()->logout();
         return $array;
     }
+
 }
