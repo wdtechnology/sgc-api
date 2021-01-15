@@ -144,4 +144,19 @@ class AuthController extends Controller
         return $array;
     }
 
+
+
+    public function getMyUser(Request $request)
+    {
+        $array = ['error' => '', 'list' => []];
+        $user = auth()->user();
+
+        $users = User::all();
+
+        $array['list'] = $users;
+
+
+        return $array;
+    }
+
 }

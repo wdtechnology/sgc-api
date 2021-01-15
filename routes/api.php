@@ -9,7 +9,6 @@ use App\Http\Controllers\DocController;
 use App\Http\Controllers\FoundAndLostController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UnitController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\WallController;
 use App\Http\Controllers\WarningController;
 use GuzzleHttp\Middleware;
@@ -28,7 +27,7 @@ Route::middleware('auth:api')->group(function(){
     //Usuários
     Route::post('auth/validate', [AuthController::class, 'validateToken']);
     Route::post('auth/logout', [AuthController::class, 'logout']);
-    Route::get('auth/myUser',[AuthController::class, 'getMyUser']);
+    Route::get('/myUser',[AuthController::class, 'getMyUser']);
 
     //Mural de avisos
     Route::get('/walls', [WallController::class, 'getAll']);
