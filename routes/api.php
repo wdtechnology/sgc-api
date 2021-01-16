@@ -11,6 +11,7 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\WallController;
 use App\Http\Controllers\WarningController;
+use App\Http\Controllers\UserController;
 use GuzzleHttp\Middleware;
 
 Route::get('/ping', function(){
@@ -24,10 +25,13 @@ Route::post('/auth/register', [AuthController::class, 'register']);
 
 Route::middleware('auth:api')->group(function(){
 
-    //Usuários
+    //Auth
     Route::post('auth/validate', [AuthController::class, 'validateToken']);
     Route::post('auth/logout', [AuthController::class, 'logout']);
-    Route::get('/myUser',[AuthController::class, 'getMyUser']);
+
+    //Usuários
+    Route::get('/myUser',[UserController::class, 'getMyUser']);
+    Route::put('/myUser/{id}',[UserController::class, 'update']);
 
     //Mural de avisos
     Route::get('/walls', [WallController::class, 'getAll']);
