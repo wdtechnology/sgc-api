@@ -341,10 +341,6 @@ class ReservationController extends Controller
             return $array;
         }
 
-
-
-
-
         return $array;
     }
 }
